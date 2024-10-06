@@ -1,17 +1,12 @@
 export default {
-  name: "home",
+  name: "history",
   type: "document",
-  title: "Home",
+  title: "History",
   fields: [
     {
+      title: "Title",
       name: "title",
       type: "string",
-      title: "Title",
-    },
-    {
-      name: "about",
-      type: "string",
-      title: "About",
     },
     {
       title: "Experience",
@@ -20,22 +15,27 @@ export default {
       of: [
         {
           type: "object",
-          title: "Experience Item",
+          title: "Awards",
           fields: [
             {
-              name: "role",
+              name: "first",
               type: "string",
-              title: "Role",
+              title: "First",
             },
             {
-              name: "company",
+              name: "second",
               type: "string",
-              title: "Company",
+              title: "Second",
             },
             {
-              name: "duration",
+              name: "third",
               type: "string",
-              title: "Duration",
+              title: "Third",
+            },
+            {
+              name: "link",
+              type: "string",
+              title: "Link",
             }
           ]
         }

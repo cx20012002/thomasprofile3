@@ -4,16 +4,20 @@ import React, { useRef } from "react";
 import Card from "./Card";
 import MouseCursorComponent from "@/components/MouseCursorComponent";
 import { ArrowRight } from "lucide-react";
-import { awards, cardContent, education } from "@/lib/content";
+import { cardContent } from "@/lib/content";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import ReviewFooter from "./ReviewFooter";
+import { History } from "@/lib/interface";
 
-const Profiles = () => {
+const Profiles = ({ history }: { history: History[] }) => {
   const dotContainerRef = useRef<HTMLDivElement | null>(null);
   const dotsBgRef = useRef<HTMLImageElement | null>(null);
   const dotsTextRef = useRef<HTMLDivElement | null>(null);
+
+  const awards = Object.values(history[0].experience);
+  const education = Object.values(history[0].experience);
 
   useGSAP(() => {
     // Initial Setup
@@ -27,7 +31,7 @@ const Profiles = () => {
         trigger: dotContainerRef.current,
         start: "top top",
         end: "+=1500",
-        pin: true
+        pin: true,
       },
     });
 
@@ -39,7 +43,7 @@ const Profiles = () => {
         end: "top top",
         scrub: 1,
       },
-      borderRadius: 0
+      borderRadius: 0,
     });
 
     // Scroll Trigger Setup for Dot Background
@@ -99,13 +103,13 @@ const Profiles = () => {
                 className="flex items-center justify-between border-b-[1px] border-gray-400 py-6"
               >
                 <MouseCursorComponent className="w-2/12">
-                  {award.year}
+                  {award.first}
                 </MouseCursorComponent>
                 <MouseCursorComponent className="w-4/12">
-                  {award.award}
+                  {award.second}
                 </MouseCursorComponent>
                 <MouseCursorComponent className="w-4/12">
-                  {award.mention}
+                  {award.third}
                 </MouseCursorComponent>
                 <MouseCursorComponent className="flex w-2/12 justify-end">
                   <ArrowRight
@@ -129,13 +133,13 @@ const Profiles = () => {
                 className="flex items-center justify-between border-b-[1px] border-gray-400 py-6"
               >
                 <MouseCursorComponent className="w-2/12">
-                  {award.year}
+                  {award.first}
                 </MouseCursorComponent>
                 <MouseCursorComponent className="w-4/12">
-                  {award.institue}
+                  {award.second}
                 </MouseCursorComponent>
                 <MouseCursorComponent className="w-4/12">
-                  {award.skills}
+                  {award.third}
                 </MouseCursorComponent>
                 <MouseCursorComponent className="flex w-2/12 justify-end">
                   <ArrowRight
@@ -175,7 +179,7 @@ const Profiles = () => {
         >
           <h2>Pixels</h2>
           <h2>with Purpose</h2>
-          <p className="text-xl text-neutral-400 mt-0">Since 2016</p>
+          <p className="mt-0 text-xl text-neutral-400">Since 2016</p>
         </div>
       </div>
       <ReviewFooter slidesPerView={2} />

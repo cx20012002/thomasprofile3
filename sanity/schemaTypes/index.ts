@@ -1,6 +1,6 @@
 import { type SchemaTypeDefinition } from 'sanity'
-import home from './home'
+import history from './history'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [home],
+  types: [history],
 }
