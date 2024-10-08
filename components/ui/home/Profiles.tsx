@@ -4,20 +4,22 @@ import React, { useRef } from "react";
 import Card from "./Card";
 import MouseCursorComponent from "@/components/MouseCursorComponent";
 import { ArrowRight } from "lucide-react";
-import { cardContent } from "@/lib/content";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import ReviewFooter from "./ReviewFooter";
-import { History } from "@/lib/interface";
+import { History, Profile } from "@/lib/interface";
+import { urlFor } from "@/sanity/lib/image";
 
-const Profiles = ({ history }: { history: History[] }) => {
+
+const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] }) => {
   const dotContainerRef = useRef<HTMLDivElement | null>(null);
   const dotsBgRef = useRef<HTMLImageElement | null>(null);
   const dotsTextRef = useRef<HTMLDivElement | null>(null);
 
   const awards = Object.values(history[0].experience);
-  const education = Object.values(history[0].experience);
+  const education = Object.values(history[1].experience);
+
 
   useGSAP(() => {
     // Initial Setup
@@ -78,12 +80,12 @@ const Profiles = ({ history }: { history: History[] }) => {
   return (
     <div className="relative w-full bg-[#141017]">
       {/* Profile Cards */}
-      {cardContent.map((item, index) => (
+      {proflie.map((item, index) => (
         <Card
           key={index}
-          bg={`/h-${index}.webp`}
+          bg={urlFor(item.image).url()}
           title={item.title}
-          categories={item.categories}
+          categories={item.smallTitle}
         />
       ))}
 
@@ -95,7 +97,7 @@ const Profiles = ({ history }: { history: History[] }) => {
       >
         {/* Awards */}
         <div className="flex h-full w-full flex-col gap-12">
-          <h2 className="text-5xl">Awards</h2>
+          <h2 className="text-5xl">{history[0].title}</h2>
           <div className="flex h-full w-full flex-col">
             {awards.map((award, index) => (
               <div
@@ -125,7 +127,7 @@ const Profiles = ({ history }: { history: History[] }) => {
 
         {/* Educational */}
         <div className="flex h-full w-full flex-col gap-12">
-          <h2 className="text-5xl">Educational</h2>
+          <h2 className="text-5xl">{history[1].title}</h2>
           <div className="flex h-full w-full flex-col">
             {education.map((award, index) => (
               <div
@@ -182,7 +184,7 @@ const Profiles = ({ history }: { history: History[] }) => {
           <p className="mt-0 text-xl text-neutral-400">Since 2016</p>
         </div>
       </div>
-      <ReviewFooter slidesPerView={2} />
+      <ReviewFooter />
     </div>
   );
 };

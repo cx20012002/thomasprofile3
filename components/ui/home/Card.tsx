@@ -7,13 +7,17 @@ import { ArrowRight } from "lucide-react";
 
 interface CardProps {
   title?: string;
-  categories?: string[];
+  categories?: string;
   bg?: string;
+  link?: string;
 }
 
 const Card = ({ title, categories, bg }: CardProps) => {
   const bgRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const imageLoader = ({ src, width, quality }) => {
+    return `${bg}?w=${width}&q=${quality || 75}`
+  }
 
   useGSAP(
     () => {
@@ -52,15 +56,15 @@ const Card = ({ title, categories, bg }: CardProps) => {
         quality={100}
         alt=""
         className="absolute"
+        loader={imageLoader}
+        
       />
       <div className="relative z-10 flex justify-between text-white">
         <div className="relative flex flex-col gap-3">
           <div className="flex text-[10px] uppercase">
-            {categories?.map((category, index) => (
-              <MouseCursorComponent key={index} className="pr-2">
-                {category}
-              </MouseCursorComponent>
-            ))}
+            <MouseCursorComponent className="pr-2">
+              {categories}
+            </MouseCursorComponent>
           </div>
           <MouseCursorComponent className="text-4xl">
             {title}

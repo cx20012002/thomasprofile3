@@ -7,3 +7,10 @@ export interface History{
         link: string;
     }[];
 }
+
+export interface Profile{
+    title: string;
+    smallTitle: string;
+    image: string;
+    link: string;
+}

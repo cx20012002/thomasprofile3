@@ -1,61 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { Draggable } from "gsap/all";
+import React from "react";
 import Image from "next/image";
-import { slidesContent } from "@/lib/content";
 import MouseCursorComponent from "@/components/MouseCursorComponent";
+import Slider from "@/components/Slider";
+import { slidesContent } from "@/lib/content";
 
-const ReviewFooter = ({ slidesPerView = 3 }: { slidesPerView?: number }) => {
-  gsap.registerPlugin(Draggable);
-
-  const slidesContainerRef = useRef<HTMLDivElement | null>(null);
-  const slidesRef = useRef<HTMLDivElement | null>(null);
-  const indicatorsRef = useRef<HTMLDivElement | null>(null);
-  const [curIndex, setCurIndex] = useState(0);
-
-  useEffect(() => {
-    if (slidesRef.current && slidesContainerRef.current) {
-      const containerWidth = slidesContainerRef.current.offsetWidth;
-      const slideWidth = containerWidth / slidesPerView;
-
-      Draggable.create(slidesRef.current, {
-        type: "x",
-        edgeResistance: 0.85,
-        dragResistance: 0,
-        inertia: true,
-        bounds: {
-          minX: -(slideWidth * (slidesContent.length - slidesPerView)),
-          maxX: 0,
-        },
-        onDragEnd: function () {
-          const index = Math.round(-this.x / slideWidth);
-          gsap.to(this.target, {
-            x: -index * slideWidth,
-            duration: 1,
-            ease: "power4",
-          });
-          setCurIndex(index);
-        },
-      });
-    }
-
-    return () => {
-      Draggable.get(slidesRef.current)?.kill();
-    };
-  }, [slidesRef.current]);
-
-  const moveTo = (index: number) => {
-    if (slidesRef.current && slidesContainerRef.current) {
-      const containerWidth = slidesContainerRef.current.offsetWidth;
-      const slideWidth = containerWidth / slidesPerView;
-      gsap.to(slidesRef.current, {
-        x: `-${slideWidth * index}px`,
-        duration: 0.5,
-      });
-    }
-    setCurIndex(index);
-  };
-
+const ReviewFooter = () => {
   return (
     <div
       className={
@@ -65,57 +14,20 @@ const ReviewFooter = ({ slidesPerView = 3 }: { slidesPerView?: number }) => {
       {/* upper part */}
       <div className="flex h-[60%] w-full flex-col gap-10 rounded-t-[50px] bg-[#e9e9e7] p-[50px]">
         <h3 className="mb-10 text-[42px]">Reviews</h3>
-
-        <div
-          ref={slidesContainerRef}
-          className="flex w-full flex-col gap-10 overflow-hidden"
-        >
-          <MouseCursorComponent slider>
-            {/* slides */}
-            <div ref={slidesRef} className={`flex items-stretch`}>
-              {slidesContent.map((content, index) => (
-                <div
-                  key={index}
-                  className="box flex w-full flex-shrink-0 flex-col gap-10 pr-10 text-xl font-semibold"
-                  style={{ width: `${100 / slidesPerView}%` }} // Adjust slide width
-                >
-                  <Image
-                    src="/quote.svg"
-                    alt="Picture of the author"
-                    width={50}
-                    height={50}
-                  />
-                  <p>{content.quote}</p>
-                  <span className="text-base font-semibold">
-                    {content.author}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </MouseCursorComponent>
-
-          {/* indicators */}
-          <div className="flex justify-center gap-10">
+        <Slider slidesPerView={3}>
+          {slidesContent.map((content, index) => (
             <div
-              ref={indicatorsRef}
-              className="indicators flex items-center gap-5"
+              key={index}
+              className="flex flex-col gap-10 text-xl font-semibold"
             >
-              {Array.from({
-                length: slidesContent.length - slidesPerView + 1,
-              }).map((_, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    moveTo(index);
-                  }}
-                  className={`indicator h-[5px] w-[5px] rounded-full transition-all duration-300 ${
-                    index === curIndex ? "w-[18px] bg-gray-800" : "bg-gray-400"
-                  } cursor-pointer`}
-                />
-              ))}
+              <Image src="/quote.svg" alt="Quote icon" width={50} height={50} />
+              <p>{content.quote}</p>
+              <span className="text-base font-semibold">
+                ⎯ &nbsp;&nbsp;&nbsp;{content.author}
+              </span>
             </div>
-          </div>
-        </div>
+          ))}
+        </Slider>
       </div>
 
       {/* lower part */}
@@ -168,9 +80,6 @@ const ReviewFooter = ({ slidesPerView = 3 }: { slidesPerView?: number }) => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      
     </div>
   );
 };
