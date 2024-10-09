@@ -17,7 +17,7 @@ export default function AnimatedText({
   useGSAP(() => {
     if (titleRef.current) {
       const textSpans = titleRef.current.querySelectorAll("span");
-  
+
       gsap.to(textSpans, {
         scrollTrigger: {
           trigger: titleRef.current,
@@ -30,8 +30,9 @@ export default function AnimatedText({
         stagger: 0.1,
       });
     }
-  
+
     if (contentRef.current) {
+      gsap.set(contentRef.current, { opacity: 0 });
       gsap.to(contentRef.current, {
         scrollTrigger: {
           trigger: contentRef.current,
@@ -43,12 +44,11 @@ export default function AnimatedText({
       });
     }
   }, []);
-  
 
   return (
     <div
       ref={titleRef}
-      className={`flex w-full flex-col gap-10 text-[42px] leading-[1.4em]`}
+      className={`flex w-full flex-col gap-10 subtitle relative`}
     >
       <div>
         {title &&

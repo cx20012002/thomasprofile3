@@ -7,19 +7,20 @@ import {
 import { useGSAP } from "@gsap/react";
 import React, { HTMLAttributes, memo, ReactNode, useRef } from "react";
 import gsap from "gsap";
-import { TfiAngleLeft, TfiAngleRight } from 'react-icons/tfi';
-
+import { TfiAngleLeft, TfiAngleRight } from "react-icons/tfi";
 
 interface MouseCursorComponentProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   slider?: boolean;
+  isAbsolute?: boolean;
 }
 
 const MouseCursorComponent = ({
   children,
   className,
   slider,
+  isAbsolute = false,
   ...rest
 }: MouseCursorComponentProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -59,15 +60,19 @@ const MouseCursorComponent = ({
   });
 
   return (
-    <div ref={containerRef} className={`${className} relative cursor-pointer`} {...rest}>
+    <div
+      ref={containerRef}
+      className={`${className} ${!isAbsolute && "relative"} cursor-pointer`}
+      {...rest}
+    >
       {children}
       {slider ? (
         <div
           ref={mouseCursorRef}
-          className="pointer-events-none absolute inset-0 z-20 h-[50px] w-[50px] rounded-full bg-black opacity-0 flex items-center justify-center"
+          className="pointer-events-none absolute inset-0 z-20 flex h-[50px] w-[50px] items-center justify-center rounded-full bg-black opacity-0"
         >
-          <TfiAngleLeft color="white" opacity={0.8} size={15}/>
-          <TfiAngleRight color="white" opacity={0.8} size={15}/>
+          <TfiAngleLeft color="white" opacity={0.8} size={15} />
+          <TfiAngleRight color="white" opacity={0.8} size={15} />
         </div>
       ) : (
         <div

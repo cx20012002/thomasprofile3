@@ -7,9 +7,9 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import ReviewFooter from "./ReviewFooter";
 import { History, Profile } from "@/lib/interface";
 import { urlFor } from "@/sanity/lib/image";
+import HomeFooter from "./HomeFooter";
 
 
 const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] }) => {
@@ -184,7 +184,7 @@ const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] 
           <p className="mt-0 text-xl text-neutral-400">Since 2016</p>
         </div>
       </div>
-      <ReviewFooter />
+      <HomeFooter />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import About from "@/components/ui/home/About";
 import Banner from "@/components/ui/home/Banner";
-import Footer from "@/components/ui/home/Footer";
-import Header from "@/components/ui/home/Header";
+import FooterMenu from "@/components/ui/home/FooterMenu";
+import HomeHeader from "@/components/ui/home/HomeHeader";
 import Profiles from "@/components/ui/home/Profiles";
 import { client } from "@/sanity/lib/client";
 
@@ -21,8 +21,8 @@ export default async function Home() {
       <Banner />
       <About />
       <Profiles history={history} proflie={profile} />
-      <Header />
-      <Footer />
+      <HomeHeader />
+      <FooterMenu />
     </>
   );
 }

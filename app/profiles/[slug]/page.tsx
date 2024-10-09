@@ -30,7 +30,7 @@ export default function SingleProfile({
       },
       y: -150,
     });
-  });
+  }, []);
 
   return (
     <div className="mt-52">
@@ -38,7 +38,7 @@ export default function SingleProfile({
         {/* Heading Section */}
         <div className="flex w-full flex-col gap-6 xl:gap-10">
           <h2 className="text-2xl">Cafe Fugaz</h2>
-          <h1 className="max-w-[80%] text-[36px] leading-[1.2em] md:text-[46px] xl:text-[70px]">
+          <h1 className="title">
             A bold brew. A bold new brand. Where tradition meets innovation.
           </h1>
           <AnimatedImageScale imageUrl={"/single_profile_image1.webp"} />
@@ -76,13 +76,13 @@ export default function SingleProfile({
           <div className="w-2/6">Challenge</div>
           <div className="w-4/6">
             <AnimatedText title="Our client needed a brand refresh to better reflect their evolving business values and appeal to a younger demographic.">
-              <p className="text-[20px]">
+              <p className="body-text">
                 In response to the dynamic shifts in their industry landscape
                 and a desire to connect more effectively with a younger
                 audience, our client recognized the imperative for a
                 comprehensive brand refresh.
               </p>
-              <p className="text-[20px]">
+              <p className="body-text">
                 Driven by a commitment to remaining current, aligning with
                 contemporary values, and resonating authentically with a dynamic
                 audience, the refresh encompassed a holistic approach — from
@@ -94,21 +94,23 @@ export default function SingleProfile({
         </div>
 
         {/* Profile Section */}
-        <div className="flex items-end gap-8">
-          <div className="w-3/5">
+        <div className="relative flex h-[90vh] w-full gap-8">
+          <div className="h-full w-3/5 overflow-hidden">
             <Image
               src="/single_profile_image3.webp"
               alt=""
-              width={1600}
+              width={800}
               height={900}
+              className="w-full"
             />
           </div>
-          <div className="w-2/5">
+          <div className="flex h-full w-2/5 items-end overflow-hidden">
             <Image
               src="/single_profile_image4.webp"
               alt=""
-              width={1600}
+              width={800}
               height={900}
+              className="w-full"
             />
           </div>
         </div>
@@ -118,13 +120,13 @@ export default function SingleProfile({
           <div className="w-2/6">Challenge</div>
           <div className="w-4/6">
             <AnimatedText title="Our client needed a brand refresh to better reflect their evolving business values and appeal to a younger demographic.">
-              <p className="text-[20px]">
+              <p className="body-text">
                 In response to the dynamic shifts in their industry landscape
                 and a desire to connect more effectively with a younger
                 audience, our client recognized the imperative for a
                 comprehensive brand refresh.
               </p>
-              <p className="text-[20px]">
+              <p className="body-text">
                 Driven by a commitment to remaining current, aligning with
                 contemporary values, and resonating authentically with a dynamic
                 audience, the refresh encompassed a holistic approach — from
@@ -162,13 +164,13 @@ export default function SingleProfile({
             <div className="w-2/6">Result</div>
             <div className="w-4/6">
               <AnimatedText title="Our client needed a brand refresh to better reflect their evolving business values and appeal to a younger demographic.">
-                <p className="text-[20px]">
+                <p className="body-text">
                   In response to the dynamic shifts in their industry landscape
                   and a desire to connect more effectively with a younger
                   audience, our client recognized the imperative for a
                   comprehensive brand refresh.
                 </p>
-                <p className="text-[20px]">
+                <p className="body-text">
                   Driven by a commitment to remaining current, aligning with
                   contemporary values, and resonating authentically with a
                   dynamic audience, the refresh encompassed a holistic approach
@@ -230,6 +232,7 @@ export default function SingleProfile({
           </div>
         </div>
       </div>
+
       {/* Next Project */}
       <div className="flex w-full flex-col gap-10 bg-black pt-20 text-white">
         <div className="px-10">Next Project</div>

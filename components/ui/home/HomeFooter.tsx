@@ -4,7 +4,7 @@ import MouseCursorComponent from "@/components/MouseCursorComponent";
 import Slider from "@/components/Slider";
 import { slidesContent } from "@/lib/content";
 
-const ReviewFooter = () => {
+const HomeFooter = () => {
   return (
     <div
       className={
@@ -84,4 +84,4 @@ const ReviewFooter = () => {
   );
 };
 
-export default ReviewFooter;
+export default HomeFooter;

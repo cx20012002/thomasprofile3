@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #E9E9E7;
-;
+  --background: #e9e9e7;
   --foreground: #171717;
 }
 
@@ -29,7 +28,7 @@ body {
 
 @layer base {
   :root {
-    --background: #E9E9E7;
+    --background: #e9e9e7;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
@@ -90,8 +89,21 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-  .content-container{
-    @apply px-[30px] w-full;
+  .content-container {
+    @apply w-full px-[30px];
   }
-  
+
+  .title {
+    @apply max-w-[1120px] text-[36px] leading-[1.2em] md:text-[46px] xl:text-[70px] font-[300];
+  }
+
+  .subtitle {
+    @apply text-[42px] leading-[1.4em];
+  }
+
+  .body-text{
+    @apply text-[20px] leading-[1.6em];
+  }
+
+
 }

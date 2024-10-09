@@ -2,7 +2,7 @@ import MouseCursorComponent from "@/components/MouseCursorComponent";
 import { ArrowRight } from "lucide-react";
 import React from "react";
 
-const Header = () => {
+const HomeHeader = () => {
   return (
     <div className="absolute top-0 flex h-10 w-full items-center justify-between px-10 py-14">
       <MouseCursorComponent>
@@ -19,4 +19,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HomeHeader;

@@ -124,7 +124,7 @@ const About = () => {
         </ul>
         <div className="w-max-[1200px] relative flex flex-col gap-12 pb-20 text-[#e9e9e7] lg:px-[15%]">
           <h3 className="text-3xl">I'm Andréw Kaplan</h3>
-          <div className="flex items-start w-full flex-col gap-5 text-[20px]">
+          <div className="flex items-start w-full flex-col gap-5 body-text">
             <p>
               An independent digital designer and front-end developer.
               Passionate about crafting unforgettable experiences and providing
