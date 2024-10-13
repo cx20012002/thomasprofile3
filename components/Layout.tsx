@@ -10,9 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      {pathname !== "/" && <Header />}
+      {pathname !== "/" && !pathname.startsWith("/sanity") && <Header />}
       {children}
-      {pathname !== "/" && <Footer />}
+      {pathname !== "/" && !pathname.startsWith("/sanity") && <Footer />}
     </div>
   );
 }

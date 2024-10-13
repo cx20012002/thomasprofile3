@@ -4,6 +4,7 @@ import PopupModal from "@/components/Modal";
 import MouseCursorComponent from "@/components/MouseCursorComponent";
 import { ArrowRight, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 export default function Header() {
@@ -25,10 +26,12 @@ export default function Header() {
 
   return (
     <>
-      <div className="fixed inset-0 top-0 z-20 flex h-20 w-full items-center justify-between px-5 lg:px-10 mix-blend-difference">
+      <div className="fixed inset-0 top-0 z-20 flex h-20 w-full items-center justify-between px-5 mix-blend-difference lg:px-10">
         {/* Logo */}
         <MouseCursorComponent className="relative w-full">
-          <Image src="/logo-light-1.svg" alt="logo" width={95} height={41} />
+          <Link href="/">
+            <Image src="/logo-light-1.svg" alt="logo" width={95} height={41} />
+          </Link>
         </MouseCursorComponent>
 
         {/* Menu */}
@@ -80,13 +83,15 @@ export default function Header() {
             <MouseCursorComponent>Careers</MouseCursorComponent>
           </div>
 
-          <MouseCursorComponent className="flex">
-            Let's Talk{" "}
-            <ArrowRight
-              className="-mt-1 -rotate-45"
-              strokeWidth={1}
-              size={"2em"}
-            />
+          <MouseCursorComponent>
+            <Link href="/contact" className="flex">
+              Let's Talk{" "}
+              <ArrowRight
+                className="-mt-1 -rotate-45"
+                strokeWidth={1}
+                size={"2em"}
+              />
+            </Link>
           </MouseCursorComponent>
         </div>
 

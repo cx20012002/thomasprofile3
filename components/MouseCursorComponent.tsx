@@ -26,38 +26,49 @@ const MouseCursorComponent = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mouseCursorRef = useRef<HTMLDivElement | null>(null);
 
-  useGSAP((context, contextSafe) => {
-    const onMouseMove = contextSafe((e: MouseEvent) => {
-      followMouseCursor(containerRef, mouseCursorRef, e);
-    });
-
-    const onMouseLeave = contextSafe(() => {
-      gsap.to(mouseCursorRef.current, {
-        opacity: 0,
-        scale: 1,
-        duration: 0.3,
+  useGSAP(
+    (context, contextSafe) => {
+      const onMouseMove = contextSafe((e: MouseEvent) => {
+        followMouseCursor(containerRef, mouseCursorRef, e);
       });
-    });
 
-    const onMouseEnter = contextSafe((e: MouseEvent) => {
-      alignToMouseCursor(containerRef, mouseCursorRef, e);
-      gsap.to(mouseCursorRef.current, {
-        opacity: 1,
-        scale: 2,
-        duration: 0.3,
+      const onMouseLeave = contextSafe(() => {
+        gsap.to(mouseCursorRef.current, {
+          opacity: 0,
+          scale: 1,
+          duration: 0.3,
+        });
       });
-    });
 
-    containerRef.current.addEventListener("mousemove", onMouseMove);
-    containerRef.current.addEventListener("mouseleave", onMouseLeave);
-    containerRef.current.addEventListener("mouseenter", onMouseEnter);
+      const onMouseEnter = contextSafe((e: MouseEvent) => {
+        alignToMouseCursor(containerRef, mouseCursorRef, e);
+        gsap.to(mouseCursorRef.current, {
+          opacity: 1,
+          scale: 2,
+          duration: 0.3,
+        });
+      });
 
-    return () => {
-      containerRef.current.removeEventListener("mousemove", onMouseMove);
-      containerRef.current.removeEventListener("mouseleave", onMouseLeave);
-      containerRef.current.removeEventListener("mouseenter", onMouseEnter);
-    };
-  });
+      if (containerRef.current) {
+        containerRef.current.addEventListener("mousemove", onMouseMove);
+        containerRef.current.addEventListener("mouseleave", onMouseLeave);
+        containerRef.current.addEventListener("mouseenter", onMouseEnter);
+      }
+
+      return () => {
+        if (containerRef.current) {
+          containerRef.current.removeEventListener("mousemove", onMouseMove);
+          containerRef.current.removeEventListener("mouseleave", onMouseLeave);
+          containerRef.current.removeEventListener("mouseenter", onMouseEnter);
+        }
+
+        if (mouseCursorRef.current) {
+          gsap.killTweensOf(mouseCursorRef.current);
+        }
+      };
+    },
+    { scope: containerRef },
+  );
 
   return (
     <div

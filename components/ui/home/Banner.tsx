@@ -31,6 +31,7 @@ const Banner = () => {
         0,
       ); // The "0" here means both animations start at the same time
 
+
       // disable scrub on mobile
       let mm = gsap.matchMedia();
       mm.add("(max-width: 768px)", () => {
@@ -51,7 +52,7 @@ const Banner = () => {
       className="content-container relative flex h-[55vh] items-center justify-center overflow-hidden sm:h-[45vh] lg:h-[90vh]"
     >
       <div className="relative flex h-full w-[40%] items-end justify-end text-right text-[clamp(2em,12vw,180px)] font-[300] leading-[1em] sm:flex-col xl:w-[34%] xl:text-[clamp(2em,9vw,180px)]">
-        <div className="-mr-[50px] mb-[330px] uppercase sm:-mr-[100px] sm:mb-[200px] lg:-mr-[150px] lg:mb-[100px]">
+        <div className="-mr-[90px] mb-[330px] uppercase sm:-mr-[100px] sm:mb-[200px] lg:-mr-[150px] lg:mb-[100px]">
           <h1 ref={box1Ref} className="">
             Thomas
           </h1>

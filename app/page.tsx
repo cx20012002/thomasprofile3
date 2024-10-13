@@ -8,7 +8,9 @@ import { client } from "@/sanity/lib/client";
 async function getCombinedData() {
   const [history, profile] = await Promise.all([
     client.fetch(`*[_type=="history"]`),
-    client.fetch(`*[_type == "profile"] | order(_createdAt asc)`),
+    client.fetch(
+      `*[_type == "profile"] | order(_createdAt asc) {title, slug, smallTitle, featureImage, summary}`,
+    ),
   ]);
 
   return { history, profile };

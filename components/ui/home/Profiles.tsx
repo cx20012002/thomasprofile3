@@ -11,8 +11,13 @@ import { History, Profile } from "@/lib/interface";
 import { urlFor } from "@/sanity/lib/image";
 import HomeFooter from "./HomeFooter";
 
-
-const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] }) => {
+const Profiles = ({
+  history,
+  proflie,
+}: {
+  history: History[];
+  proflie: Profile[];
+}) => {
   const dotContainerRef = useRef<HTMLDivElement | null>(null);
   const dotsBgRef = useRef<HTMLImageElement | null>(null);
   const dotsTextRef = useRef<HTMLDivElement | null>(null);
@@ -20,62 +25,93 @@ const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] 
   const awards = Object.values(history[0].experience);
   const education = Object.values(history[1].experience);
 
+  useGSAP(
+    () => {
+      // Initial Setup
+      gsap.set([dotsBgRef.current, dotsTextRef.current], { scale: 0.9 });
+      gsap.set(dotsTextRef.current, { opacity: 0, translateY: "-20%" });
 
-  useGSAP(() => {
-    // Initial Setup
-    gsap.set([dotsBgRef.current, dotsTextRef.current], { scale: 0.9 });
-    gsap.set(dotsTextRef.current, { opacity: 0 });
-    gsap.set(dotsTextRef.current, { translateY: "-20%" });
+      // Create a timeline without a scrollTrigger, as scrollTriggers will be added individually
+      const tl = gsap.timeline();
 
-    // Scroll Trigger Setup for Dot Container pinning
-    gsap.to(dotContainerRef.current, {
-      scrollTrigger: {
-        trigger: dotContainerRef.current,
-        start: "top top",
-        end: "+=1500",
-        pin: true,
-      },
-    });
+      // Pinning the Dot Container
+      tl.to(dotContainerRef.current, {
+        scrollTrigger: {
+          trigger: dotContainerRef.current,
+          start: "top top",
+          end: "+=1500",
+          pin: true,
+        },
+      });
 
-    // Scroll Trigger Setup for Dot Container borderRadius
-    gsap.to(dotContainerRef.current, {
-      scrollTrigger: {
-        trigger: dotContainerRef.current,
-        start: "top top",
-        end: "top top",
-        scrub: 1,
-      },
-      borderRadius: 0,
-    });
+      // Dot Container - borderRadius animation
+      tl.to(dotContainerRef.current, {
+        scrollTrigger: {
+          trigger: dotContainerRef.current,
+          start: "top top",
+          end: "top top",
+          scrub: 1,
+        },
+        borderRadius: 0,
+      });
 
-    // Scroll Trigger Setup for Dot Background
-    gsap.to(dotsBgRef.current, {
-      scrollTrigger: {
-        trigger: dotContainerRef.current,
-        start: "top 60%",
-        end: "+=2000",
-        scrub: 1,
-      },
-      scale: 6,
-    });
+      // Dot Background - scale animation
+      tl.to(dotsBgRef.current, {
+        scrollTrigger: {
+          trigger: dotContainerRef.current,
+          start: "top 60%",
+          end: "+=2000",
+          scrub: 1,
+        },
+        scale: 6,
+      });
 
-    // Scroll Trigger Setup for Dot Text
-    const tl = gsap
-      .timeline({
+      // Dot Text - opacity and scale animations
+      tl.to(dotsTextRef.current, {
         scrollTrigger: {
           trigger: dotContainerRef.current,
           start: "top 30%",
           end: "bottom top",
           scrub: 1,
         },
-      })
-      .to(dotsTextRef.current, {
         opacity: 1,
-      })
-      .to(dotsTextRef.current, {
         scale: 1,
       });
-  });
+
+      // Mobile View
+      let mm = gsap.matchMedia();
+      mm.add("screen and (max-width: 768px)", () => {
+        gsap.set(dotsBgRef.current, { display: "none" });
+        gsap.set(dotsTextRef.current, { opacity: 1, translateY: "0%" });
+        gsap.set(dotContainerRef.current, {
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        });
+
+        tl.getChildren().forEach((child) => {
+          child.scrollTrigger && child.scrollTrigger.disable();
+        });
+        tl.kill();
+      });
+
+      // Desktop View
+      mm.add("screen and (min-width: 768px)", () => {
+        tl.getChildren().forEach((child) => {
+          child.scrollTrigger && child.scrollTrigger.enable();
+        });
+      });
+
+      // Cleanup
+      return () => {
+        tl.getChildren().forEach((child) => {
+          child.scrollTrigger && child.scrollTrigger.disable();
+        });
+        tl.kill();
+      };
+
+    },
+    { scope: dotContainerRef.current },
+  );
 
   return (
     <div className="relative w-full bg-[#141017]">
@@ -83,16 +119,17 @@ const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] 
       {proflie.map((item, index) => (
         <Card
           key={index}
-          bg={urlFor(item.image).url()}
+          bg={urlFor(item.featureImage).url()}
           title={item.title}
           categories={item.smallTitle}
+          slug={item.slug.current}
         />
       ))}
 
       {/* Awards & Educational */}
       <div
         className={
-          "group sticky top-0 flex h-screen w-full flex-col justify-between gap-10 overflow-hidden rounded-[50px] bg-[#e9e9e7] bg-no-repeat p-10 pt-[200px] lg:flex-row"
+          "group sticky top-0 flex h-screen w-full flex-col justify-between gap-10 overflow-hidden rounded-[50px] bg-[#e9e9e7] bg-no-repeat p-10 pt-[50px] md:pt-[200px] lg:flex-row -mt-10 md:mt-0"
         }
       >
         {/* Awards */}
@@ -160,12 +197,12 @@ const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] 
       <div
         ref={dotContainerRef}
         className={
-          "group top-0 z-20 flex h-screen w-full items-center justify-center gap-10 overflow-hidden rounded-[50px] bg-white p-10 pt-[200px]"
+          "group relative top-0 z-20 flex h-[400px] w-full items-center justify-center gap-10 overflow-hidden rounded-[50px] bg-black p-10 md:static md:h-screen md:bg-white md:pt-[200px]"
         }
       >
         <div
           ref={dotsBgRef}
-          className="flex h-[1000px] w-full items-center justify-center"
+          className="flex h-full w-full items-center justify-center md:h-[1000px]"
         >
           <Image
             src={"/dots.webp"}
@@ -173,11 +210,12 @@ const Profiles = ({ history, proflie }: { history: History[], proflie:Profile[] 
             quality={100}
             alt=""
             fill
+            className="hidden md:block"
           />
         </div>
         <div
           ref={dotsTextRef}
-          className="absolute text-center text-[180px] font-[100] leading-[180px] text-white"
+          className="flex flex-col items-center justify-center gap-8 text-center text-[50px] font-[100] leading-6 text-white md:absolute md:gap-0 md:text-[180px] md:leading-[180px]"
         >
           <h2>Pixels</h2>
           <h2>with Purpose</h2>

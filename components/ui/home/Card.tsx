@@ -4,20 +4,21 @@ import React, { memo, useRef } from "react";
 import { gsap } from "gsap";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface CardProps {
   title?: string;
   categories?: string;
   bg?: string;
-  link?: string;
+  slug?: string;
 }
 
-const Card = ({ title, categories, bg }: CardProps) => {
+const Card = ({ title, categories, bg, slug = "/" }: CardProps) => {
   const bgRef = useRef<HTMLDivElement | null>(null);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const imageLoader = ({ src, width, quality }) => {
-    return `${bg}?w=${width}&q=${quality || 75}`
-  }
+    return `${bg}?w=${width}&q=${quality || 75}`;
+  };
 
   useGSAP(
     () => {
@@ -26,7 +27,7 @@ const Card = ({ title, categories, bg }: CardProps) => {
           scale: 1,
         });
 
-        gsap.to(imgRef.current, {
+        const gg = gsap.to(imgRef.current, {
           scrollTrigger: {
             trigger: bgRef.current,
             start: "top bottom",
@@ -36,6 +37,23 @@ const Card = ({ title, categories, bg }: CardProps) => {
           scale: 1.2,
           duration: 2,
         });
+
+        // Mobile View
+        let mm = gsap.matchMedia();
+        mm.add("screen and (max-width: 768px)", () => {
+          gg.scrollTrigger && gg.scrollTrigger.disable();
+        });
+
+        // Desktop View
+        mm.add("screen and (min-width: 768px)", () => {
+          gg.scrollTrigger && gg.scrollTrigger.enable();
+        });
+
+        // Cleanup
+        return () => {
+          gg.scrollTrigger && gg.scrollTrigger.disable();
+          gg.kill();
+        };
       }
     },
     { scope: bgRef },
@@ -45,7 +63,7 @@ const Card = ({ title, categories, bg }: CardProps) => {
     <div
       ref={bgRef}
       className={
-        "group sticky top-0 h-screen w-full overflow-hidden rounded-[50px] bg-no-repeat p-10"
+        "group relative -mt-10 h-[400px] w-full overflow-hidden rounded-t-[50px] bg-no-repeat p-10 md:sticky md:top-0 md:mt-0 md:h-screen md:rounded-[50px]"
       }
     >
       <Image
@@ -57,7 +75,6 @@ const Card = ({ title, categories, bg }: CardProps) => {
         alt=""
         className="absolute"
         loader={imageLoader}
-        
       />
       <div className="relative z-10 flex justify-between text-white">
         <div className="relative flex flex-col gap-3">
@@ -67,12 +84,14 @@ const Card = ({ title, categories, bg }: CardProps) => {
             </MouseCursorComponent>
           </div>
           <MouseCursorComponent className="text-4xl">
-            {title}
+            <Link href={`/profiles/${slug}`}>{title}</Link>
           </MouseCursorComponent>
         </div>
         <div>
           <MouseCursorComponent className="flex h-[60px] w-[60px] items-center justify-center rounded-full border border-white">
-            <ArrowRight className="-rotate-45" strokeWidth={1} size={"2em"} />
+            <Link href={`/profiles/${slug}`}>
+              <ArrowRight className="-rotate-45" strokeWidth={1} size={"2em"} />
+            </Link>
           </MouseCursorComponent>
         </div>
         <div className="pointer-events-none absolute inset-0 h-[70px] w-[70px] rounded-full bg-white opacity-0 mix-blend-difference" />

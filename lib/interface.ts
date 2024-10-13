@@ -10,7 +10,15 @@ export interface History{
 
 export interface Profile{
     title: string;
+    subtitle: string;
     smallTitle: string;
-    image: string;
-    link: string;
+    featureImage: string;
+    images: string[];
+    slug: {current: string};
+    introBlocks: any;
+    summary: string;
+    content: any;
+    profileSection: any;
+    gallery: any;
+    _createdAt: string;
 }

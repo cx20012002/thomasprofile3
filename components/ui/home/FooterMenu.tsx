@@ -4,6 +4,7 @@ import PopupModal from "@/components/Modal";
 import { ArrowRight } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import { VscTriangleDown } from "react-icons/vsc";
+import Link from "next/link";
 
 const FooterMenu = () => {
   const [isPopup, setIsPopup] = useState<boolean>(false);
@@ -34,7 +35,7 @@ const FooterMenu = () => {
   }, [menuExpended]);
 
   return (
-    <div className="fixed bottom-3 left-1/2 z-50 flex h-10 w-fit -translate-x-1/2 items-center justify-center text-white">
+    <div className="fixed bottom-3 left-1/2 z-50 hidden h-10 w-fit -translate-x-1/2 items-center justify-center text-white md:flex">
       {/* Footer Menu */}
       <div className="flex w-[378px] items-center justify-between rounded-[50px] bg-neutral-900 bg-opacity-50 px-8 py-3 text-[9px] uppercase backdrop-blur-md">
         <MouseCursorComponent
@@ -44,9 +45,13 @@ const FooterMenu = () => {
           TS
         </MouseCursorComponent>
         <MouseCursorComponent>About</MouseCursorComponent>
-        <MouseCursorComponent>Work</MouseCursorComponent>
+        <MouseCursorComponent>
+          <Link href="/profiles">Work</Link>
+        </MouseCursorComponent>
         <MouseCursorComponent>Awards</MouseCursorComponent>
-        <MouseCursorComponent>Reviews</MouseCursorComponent>
+        <MouseCursorComponent>
+          <a href="#reviews">Reviews</a>
+        </MouseCursorComponent>
         <MouseCursorComponent className="flex items-center justify-center gap-1">
           Blog{" "}
           <ArrowRight className="-rotate-45" strokeWidth={1} size={"1.3em"} />
@@ -65,7 +70,7 @@ const FooterMenu = () => {
           About
         </MouseCursorComponent>
         <MouseCursorComponent className="p-[12px] hover:bg-neutral-200">
-          Work
+          <Link href="/profiles">Work</Link>
         </MouseCursorComponent>
         <div
           ref={dropdownRef}
